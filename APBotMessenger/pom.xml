@@ -7,7 +7,7 @@
         <version>3.4</version>
         <relativePath />
     </parent>
-    <groupId>io.jenkins.plugins</groupId>
+    <groupId>ntou.jt.apbotmessenger</groupId>
     <artifactId>1.0</artifactId>
     <version>1.0</version>
     <packaging>hpi</packaging>
