@@ -1,4 +1,0 @@
-<?jelly escape-by-default='true'?>
-<div>
-    用來將Jenkins訊息傳遞給APBot用的Plugin，將會設定聊天室號碼以及要將哪些變動推到聊天室。
-</div>
