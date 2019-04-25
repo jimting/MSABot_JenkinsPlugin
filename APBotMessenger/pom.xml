@@ -20,6 +20,7 @@
           ~ hpi-plugin.version: The HPI Maven Plugin version used by the plugin..
           ~ stapler-plugin.version: The Stapler Maven plugin version required by the plugin.
      -->
+	<enforcer.skip>true</enforcer.skip>
     </properties>
     <name>APBotMessenger</name>
     <description>Push build data to APBot.</description>
@@ -78,11 +79,11 @@
             <version>2.14</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-		  <groupId>com.rabbitmq</groupId>
-		  <artifactId>amqp-client</artifactId>
-		  <version>(5.5.0,)</version>
-		</dependency>
+	<dependency>
+		<groupId>com.rabbitmq</groupId>
+		<artifactId>amqp-client</artifactId>
+		<version>5.7.0</version>
+	</dependency>
     </dependencies>
 
     <!-- If you want this to appear on the wiki page:

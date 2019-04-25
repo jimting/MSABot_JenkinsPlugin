@@ -1,0 +1,5 @@
+<?jelly escape-by-default='true'?>
+<div>
+	To push build data to APBot, you must set up your slack chatroom number.
+    用來將Jenkins訊息傳遞給APBot用的Plugin，將會需要設定Slack聊天室號碼。
+</div>
