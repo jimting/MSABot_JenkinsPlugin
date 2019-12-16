@@ -11,6 +11,15 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
+import hudson.tasks.test.AggregatedTestResultAction;
+import hudson.tasks.junit.CaseResult;
+import hudson.EnvVars;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
@@ -48,22 +57,57 @@ public class APBotMessengerPublisher extends Notifier {
     }
 
     @Override
-     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+    public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
 	//get project datas and push them to hubot
 	// Generate message (JSON format)
-        String data = "{";
-        data += "\"build_name\":"+"\""+build.getProject().getName()+"\",";
-	data += "\"build_number\":"+"\""+build.getNumber()+"\",";
-	data += "\"build_status\":"+"\""+getResultAsString(build.getResult())+"\",";
-	data += "\"roomNumber\":"+"\""+roomNumber+"\",";
-	data += "\"user_id\":"+"\""+userID+"\"}";
-		
-	if(sender.send(data))
-		listener.getLogger().println("Sending Success!");
-	else
-		listener.getLogger().println("Sending failed!");
+        JSONObject obj = new JSONObject();
+        obj.put("build_name", build.getProject().getName());
+        obj.put("build_number", build.getNumber());
+	obj.put("build_status", getResultAsString(build.getResult()));
+	obj.put("roomNumber", roomNumber);
+	obj.put("user_id", userID);
+	JSONArray tempCase = new JSONArray();
 
-        listener.getLogger().println("Hello, " + roomNumber + "!");
+	AggregatedTestResultAction resultAction = (AggregatedTestResultAction)build.getAggregatedTestResultAction();
+	List failList = new ArrayList();
+	try
+	{
+		failList = resultAction.getFailedTests();
+		obj.put("fail_count", resultAction.getFailCount());
+		obj.put("skip_count", resultAction.getSkipCount());
+		obj.put("total_count", resultAction.getTotalCount());
+	}
+	catch (Exception e) 
+	{
+		obj.put("fail_count", 0);
+		obj.put("skip_count", 0);
+		obj.put("total_count", 0);
+	}
+	//put failCase into tempCase here
+	for(int i = 0;i < failList.size();i++)
+	{	
+		CaseResult failCase = (CaseResult)failList.get(i);
+		JSONObject fail_obj = new JSONObject();
+		fail_obj.put("name", failCase.getName());
+		fail_obj.put("out", failCase.getStdout());
+		tempCase.put(fail_obj);
+	}
+	obj.put("fail_case", tempCase);
+
+	
+	final EnvVars env = build.getEnvironment(listener);
+	String BUILD_URL = env.get("BUILD_URL");
+	
+	obj.put("build_url", BUILD_URL);
+
+	listener.getLogger().println("Data : " + build.getRootDir().getAbsolutePath());
+	listener.getLogger().println("Build_URL : " + BUILD_URL);
+	
+	if(sender.send(obj.toString()))
+	    listener.getLogger().println("Sending Success!");
+	else
+	    listener.getLogger().println("Sending failed!");
+
 	return true;
     }
 

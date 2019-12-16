@@ -3,13 +3,14 @@ Group-Id: ntou.jt.apbotmessenger
 Short-Name: 1.0
 Long-Name: APBotMessenger
 Plugin-Version: 1.0
-Hudson-Version: 2.7.3
-Jenkins-Version: 2.7.3
-Plugin-Dependencies: structs:1.7
+Hudson-Version: 1.625.3
+Jenkins-Version: 1.625.3
+Plugin-Dependencies: structs:1.7,junit:1.2-beta-4
 Plugin-Developers: 
-Libraries: /home/jt/jenkins_plugin_test/JenkinsPlugin/APBotMessenger/s
- rc/main/resources,/home/jt/jenkins_plugin_test/JenkinsPlugin/APBotMes
- senger/target/classes
-Resource-Path: /home/jt/jenkins_plugin_test/JenkinsPlugin/APBotMesseng
- er/src/main/webapp
+Libraries: /home/jt/APBotMessenger/src/main/resources,/home/jt/APBotMe
+ ssenger/target/classes,/home/jt/.m2/repository/com/rabbitmq/amqp-clie
+ nt/5.7.0/amqp-client-5.7.0.jar,/home/jt/.m2/repository/org/w3c/dom/2.
+ 3.0-jaxb-1.0.6/dom-2.3.0-jaxb-1.0.6.jar,/home/jt/.m2/repository/org/j
+ son/json/20180813/json-20180813.jar
+Resource-Path: /home/jt/APBotMessenger/src/main/webapp
 
