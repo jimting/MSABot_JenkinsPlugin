@@ -15,7 +15,7 @@ public class EmitLog {
 	{
    		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("140.121.197.130");
-		factory.setPort(5502);
+		factory.setPort(9002);
 		try (Connection connection = factory.newConnection();
 	             	Channel channel = connection.createChannel()) {
 	           	channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
